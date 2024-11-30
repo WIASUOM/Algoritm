@@ -1,44 +1,64 @@
-// Includes
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_error.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_timer.h>
+// Include && Libraries
+#include <raylib.h>
 
-
-// Main function
-int main(int argc, char** args) {
-
-	//
-	SDL_Renderer* renderer = nullptr;
-	SDL_Window* window = nullptr;
-	SDL_Event e;
-	bool running = true;
-	//
-	SDL_Init(SDL_INIT_EVERYTHING);
-
-	// Create window and renderer
-	SDL_CreateWindowAndRenderer(1200, 800, 0, &window, &renderer);
-
-	while(running)
-	{
-	    while(SDL_PollEvent(&e))
-		{
-		    if(e.type == SDL_QUIT)
-			{
-			    running = false;
-			}
-		}
-
-
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderClear(renderer);
-
-	    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	    SDL_RenderDrawPoint(renderer, 800/2, 600/2);
-
-	    SDL_RenderPresent(renderer);
-
+// Grid Background
+void grid(){
+	int gridx, gridy;
+	gridx = -10000;
+	gridy = 10000;
+	while(gridx <= 10000){
+	    DrawLine(gridx, gridy, gridx, -gridy, BLACK);
+		gridx = gridx + 100;
 	}
-	return 0;
+	while(gridy >= -10000){
+	    DrawLine(gridx, gridy, -gridx, gridy, BLACK);
+		gridy = gridy - 100;
+	}
+}
+
+// Main Function
+int main () {
+
+    const int SCREEN_WIDTH = 1200;
+    const int SCREEN_HEIGHT = 800;
+
+
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "My first RAYLIB program!");
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    MaximizeWindow();
+    SetTargetFPS(60);
+
+
+    Rectangle player = { 0, 0, 0, 0 };
+
+    Camera2D camera = { 0 };
+    camera.target = (Vector2){ player.x + 20.0f, player.y + 20.0f };
+    camera.offset = (Vector2){ SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f };
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
+
+
+    while (WindowShouldClose() == false){
+
+        if (IsKeyDown(KEY_RIGHT)) player.x += 127;
+        else if (IsKeyDown(KEY_LEFT)) player.x -= 127;
+        else if (IsKeyDown(KEY_DOWN)) player.y += 127;
+        else if (IsKeyDown(KEY_UP)) player.y -= 127;
+
+        // Camera target follows player
+        camera.target = (Vector2){ player.x + 20, player.y + 20 };
+
+        BeginDrawing();
+            ClearBackground(WHITE);
+            BeginMode2D(camera);
+                grid();
+
+                DrawRectangleRec(player, RED);
+
+            EndMode2D();
+
+        EndDrawing();
+    }
+
+    CloseWindow();
 }

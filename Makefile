@@ -2,7 +2,7 @@ all: Algoritm
 
 
 Algoritm: main.o
-	gcc src/main.o -l SDL2 -o Algoritm.exe
+	gcc src/main.o -l raylib -o Algoritm.exe
 	chmod +x Algoritm.exe
 
 
