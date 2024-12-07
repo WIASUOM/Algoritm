@@ -1,5 +1,5 @@
 # Algoritm
 
-### Yaradılma Səbəbi
+### The Reason Why It's Created
 
-Çünki niyə olmasın?
+because why not?

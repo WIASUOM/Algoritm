@@ -1,0 +1,7 @@
+
+
+
+
+struct rec {
+    int data;
+}

@@ -6,8 +6,8 @@ Algoritm: main.o
 	chmod +x Algoritm.exe
 
 
-main.o: src/main.cpp
-	gcc -c src/main.cpp -o src/main.o
+main.o: src/main.c
+	gcc -c src/main.c -o src/main.o
 
 clean:
 	rm -rf Algoritm.exe src/main.o
